@@ -177,14 +177,15 @@ def update_game():
             ball.dy += (ball.ycor() - right_paddle.ycor()) * 0.08
 
         # Pontszerzés
-        if ball.xcor() > SCREEN_WIDTH // 2:
+        scorer = scoring_player(ball.xcor(), SCREEN_WIDTH // 2)
+        if scorer == "left":
             score_left += 1
             draw_score()
             if has_won(score_left, WINNING_SCORE):
                 finish_game("A bal játékos")
             else:
                 reset_ball(-1)
-        elif ball.xcor() < -SCREEN_WIDTH // 2:
+        elif scorer == "right":
             score_right += 1
             draw_score()
             if has_won(score_right, WINNING_SCORE):
