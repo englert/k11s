@@ -84,3 +84,16 @@ Válassz legalább egyet:
 - Képernyőkép a működő játékról.
 
 **Fontos:** ne csak másold a kódot. Minden változtatásnál tudd elmagyarázni, mit csinál, és ellenőrizd futtatással.
+
+
+## 9. Automatikus tesztelés pytesttel
+
+1. Telepítsd a pytestet: `python3 -m pip install pytest`.
+2. Futtasd a teszteket: `python3 -m pytest -v`.
+3. Nyisd meg a `pong_logic.py` fájlt, és keresd meg a `clamp_paddle_y()`, `bounce_vertical()`, `scoring_player()` és `has_won()` függvényeket.
+4. Olvasd el a `tests/test_pong_logic.py` tesztjeit. Minden teszt egy konkrét bemenethez ellenőrzi az elvárt eredményt.
+5. Módosíts egy logikai függvényt szándékosan hibásra, majd futtasd újra a teszteket. Figyeld meg, hogyan jelzi a pytest a hibát. Ezután javítsd vissza.
+6. Írj legalább két új tesztet: például ellenőrizd a labda mozgását a fal közelében, illetve a győzelmi pontszámot.
+7. Válassz egy új játékszabályt, valósítsd meg, és írj hozzá tesztet.
+
+**Fontos:** a grafikus játék kipróbálása és az automatikus tesztelés két külön ellenőrzési mód. A pytest a logikai függvényeket ellenőrzi; a teljes játékot továbbra is indítsd el, és próbáld ki kézzel is.
