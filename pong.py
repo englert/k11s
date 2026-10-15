@@ -10,6 +10,8 @@ Irányítás:
 
 import turtle
 
+from pong_logic import bounce_vertical, clamp_paddle_y, has_won, scoring_player
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 PADDLE_STEP = 30
@@ -89,10 +91,8 @@ def move_paddle(paddle, dy):
     """Elmozdítja az ütőt, ha az nem lép ki a pályáról."""
     if game_over:
         return
-    new_y = paddle.ycor() + dy
     limit = SCREEN_HEIGHT // 2 - 60
-    if -limit <= new_y <= limit:
-        paddle.sety(new_y)
+    paddle.sety(clamp_paddle_y(paddle.ycor(), dy, limit))
 
 
 def left_up():
@@ -152,12 +152,9 @@ def update_game():
         # Visszapattanás a felső és alsó falról
         top = SCREEN_HEIGHT // 2 - 20
         bottom = -SCREEN_HEIGHT // 2 + 20
-        if ball.ycor() >= top:
-            ball.sety(top)
-            ball.dy *= -1
-        elif ball.ycor() <= bottom:
-            ball.sety(bottom)
-            ball.dy *= -1
+        new_y, new_dy = bounce_vertical(ball.ycor(), ball.dy, top, bottom)
+        ball.sety(new_y)
+        ball.dy = new_dy
 
         # Ütközés a bal oldali ütővel
         if (
@@ -183,14 +180,14 @@ def update_game():
         if ball.xcor() > SCREEN_WIDTH // 2:
             score_left += 1
             draw_score()
-            if score_left >= WINNING_SCORE:
+            if has_won(score_left, WINNING_SCORE):
                 finish_game("A bal játékos")
             else:
                 reset_ball(-1)
         elif ball.xcor() < -SCREEN_WIDTH // 2:
             score_right += 1
             draw_score()
-            if score_right >= WINNING_SCORE:
+            if has_won(score_right, WINNING_SCORE):
                 finish_game("A jobb játékos")
             else:
                 reset_ball(1)
